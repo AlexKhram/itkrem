@@ -31,7 +31,13 @@ xhr.onreadystatechange = function() {
                 var data = JSON.parse(xhr.responseText);
                 for (var key in data) {
  					var divCard = document.createElement('div');
- 					divCard.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--4dp";
+ 					divCard.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";
+ 					// divCard.addEventListener("mouseover", function(){this.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--6dp";});
+ 					// divCard.addEventListener("mouseout", function(){this.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";});
+
+					divCard.addEventListener("mouseover", function(){this.classList.add("mdl-shadow--6dp"); this.classList.remove("mdl-shadow--2dp");});
+ 					divCard.addEventListener("mouseout", function(){this.classList.add("mdl-shadow--2dp"); this.classList.remove("mdl-shadow--6dp");});
+
  				// 	var divDate = document.createElement('div');
  				// 	divDate.className = "mdl-card__title";
 					// divDate.innerHTML = data[key]['data'];
