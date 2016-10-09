@@ -7,16 +7,21 @@
 </head>
 <body>
 <style type="text/css">
-
+.mdl-card {
+	position:relative;
+ 	/*opacity: .99;*/
+ 	z-index: 0;
+}
 .mdl-card__media {
     margin: 0;
 }
 .cards-section {
-  max-width: 1280px;
+  max-width: 1024px;
 }
 </style>
 <div class="mdl-layout mdl-js-layout mdl-color--grey-100">
     <main class="mdl-layout__content">
+    	<div id="eventBody" class="mdl-grid cards-section"></div>
         <div id="contentBody" class="mdl-grid cards-section"></div>
     </main>
 </div>
@@ -34,9 +39,26 @@ xhr.onreadystatechange = function() {
  					divCard.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";
  					// divCard.addEventListener("mouseover", function(){this.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--6dp";});
  					// divCard.addEventListener("mouseout", function(){this.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";});
-					
-					divCard.onblur = function(){this.classList.add("mdl-cell--4-col"); this.classList.remove("mdl-cell--12-col");};
-					divCard.addEventListener("click", function(){this.classList.add("mdl-cell--12-col"); this.classList.remove("mdl-cell--4-col");});
+					divCard.tabIndex = "1";
+					divCard.onblur = function(){
+						
+						contentBody.appendChild(this);
+						this.classList.add("mdl-cell--4-col"); 
+						this.classList.remove("mdl-cell--12-col");
+
+						// this.style.position = "relative";
+						// this.style.zIndex = "0";
+					};
+					divCard.addEventListener("focus", function(){
+						
+						eventBody.appendChild(this);
+						// contentBody.insertBefore(this, contentBody.firstChild);
+						this.classList.add("mdl-cell--12-col");
+						this.classList.remove("mdl-cell--4-col");
+						this.focus();
+						// this.style.position = "absolute";
+						// this.style.zIndex = "3";
+					});
 					divCard.addEventListener("mouseover", function(){this.classList.add("mdl-shadow--6dp"); this.classList.remove("mdl-shadow--2dp");});
  					divCard.addEventListener("mouseout", function(){this.classList.add("mdl-shadow--2dp"); this.classList.remove("mdl-shadow--6dp");});
  					// divCard.addEventListener("click", function(){this.classList.toggle("mdl-cell--12-col");});
