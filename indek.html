@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+	<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-color--grey-100">
+    <main class="mdl-layout__content">
+        <div id="contentBody" class="mdl-grid"></div>
+    </main>
+</div>
+<script>
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://itkrem-a14ca.firebaseio.com/events.json', true);
+xhr.send();
+xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            
+            try {
+                var data = JSON.parse(xhr.responseText);
+                for (var key in data) {
+                	var divCell = document.createElement('div');
+                	divCell.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone";
+ 					var divCard = document.createElement('div');
+ 					divCard.className = "mdl-card mdl-shadow--4dp";
+ 					var divTitle = document.createElement('div');
+ 					divTitle.className = "mdl-card__title";
+					divTitle.innerHTML = data[key]['name'];
+					var divMedia = document.createElement('div');
+					divMedia.className = "mdl-card__media";
+					var img = document.createElement("IMG");
+					img.src = data[key]['image'];
+					var divDesc = document.createElement('div');
+					divDesc.className = "mdl-card__supporting-text";
+					divDesc.innerHTML = data[key]['desc'];
+					divCard.appendChild(divTitle);
+					divMedia.appendChild(img);
+					divCard.appendChild(divMedia);
+					divCard.appendChild(divDesc);
+					divCell.appendChild(divCard);
+					contentBody.appendChild(divCell);
+				}
+                console.dir(data);
+            } catch(err) {
+                console.log(err.message + " in " + xhr.responseText);
+                return;
+            }   
+    };
+}
+</script>
+
+
+</html>
