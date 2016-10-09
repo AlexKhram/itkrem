@@ -76,6 +76,10 @@ xhr.onreadystatechange = function() {
  					divTitle.style.background = "url('" + data[key]['image'] + "') center/cover"; 
  					divTitle.style.minHeight = "250px";
  					divTitle.style.width = "100%";
+
+ 					var divSpinner = document.createElement('div');
+ 					divSpinner.className = "mdl-spinner mdl-js-spinner is-active";
+ 					divTitle.appendChild(divSpinner);
  	
  					// var h2Title = document.createElement('h2');
  					// h2Title.className = "mdl-card__title-text";
