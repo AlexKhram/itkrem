@@ -149,6 +149,16 @@ xhr.onreadystatechange = function() {
 //////////////////// router
 					if("/"+data[key]['searchName'] == location.pathname){
 						divCard.focus();
+						var microData = document.createElement('script');
+  						microData.type = 'application/ld+json';
+  						microData.text = JSON.stringify({
+   							"@context": "http://schema.org",
+    						"@type": "Event",
+    						"name": data[key]['name'],
+    						"url": window.location.href,
+    						"startDate": data[key]['date']
+  						});
+  						document.querySelector('body').appendChild(microData);
 					}
 					
 				}
