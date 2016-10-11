@@ -59,7 +59,7 @@ xhr.onreadystatechange = function() {
 
  	
 					var divDesc = document.createElement('div');
-					divDesc.className = "mdl-card__supporting-text";
+					divDesc.className = "mdl-card__supporting-text card-desc";
 					divDesc.style.minHeight = "100px";
 					divDesc.innerHTML = data[key]['desc'].substring(0,150)+"...";
 
@@ -89,21 +89,26 @@ xhr.onreadystatechange = function() {
 					contentBody.appendChild(divCard);
 	
 ///////////////////// actions for card
-					divCard.onblur = function(){
+					divCard.onblur = (function() {
+						var cardData = data[key];
+						return function(){
 						contentBody.appendChild(this);
 						this.getElementsByClassName('mdl-card__title')[0].style.minHeight = "250px";
+						this.getElementsByClassName('card-desc')[0].innerHTML = cardData['desc'].substring(0,150)+"...";
 						this.classList.add("mdl-cell--4-col"); 
 						this.classList.remove("mdl-cell--12-col");
-					};
+						};
+					})(); 
 					divCard.onfocus = (function() {
-						var searchName = data[key]['searchName'];
+						var cardData = data[key];
 						return function(){	
-						this.getElementsByClassName('mdl-card__title')[0].style.minHeight = "650px";
 						eventBody.appendChild(this);
+						this.getElementsByClassName('mdl-card__title')[0].style.minHeight = "650px";
+						this.getElementsByClassName('card-desc')[0].innerHTML = cardData['fullDesc'];					
 						this.classList.add("mdl-cell--12-col");
 						this.classList.remove("mdl-cell--4-col");
 						this.focus();
-						history.pushState('', '', "/"+searchName);
+						history.pushState('', '', "/"+cardData['searchName']);
 						// history.pushState('', '', "/"+this.children[0].innerHTML);
 						};
 					})();
@@ -115,12 +120,12 @@ xhr.onreadystatechange = function() {
  						this.classList.add("mdl-shadow--2dp");
  						this.classList.remove("mdl-shadow--6dp");
  					};
- 					divTitle.onmouseover = function(){
- 						this.style.backgroundSize = "contain";
- 					}
- 					divTitle.onmouseout = function(){
- 						this.style.backgroundSize = "cover";
- 					}
+ 					// divTitle.onmouseover = function(){
+ 					// 	this.style.backgroundSize = "contain";
+ 					// }
+ 					// divTitle.onmouseout = function(){
+ 					// 	this.style.backgroundSize = "cover";
+ 					// }
 
 
 //////////////////// router
