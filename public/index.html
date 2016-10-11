@@ -42,23 +42,23 @@ xhr.onreadystatechange = function() {
 
 					//actions
 					divCard.onblur = function(){
-
-						console.log ("onblur");
-						console.dir(this);	
 						contentBody.appendChild(this);
 						this.classList.add("mdl-cell--4-col"); 
 						this.classList.remove("mdl-cell--12-col");
 					};
 					
-					divCard.onfocus = function(){
-						var myData = data[key]['searchName'];
+					divCard.onfocus = (function() {
+						var searchName = data[key]['searchName'];
+						return function(){	
 						eventBody.appendChild(this);
 						this.classList.add("mdl-cell--12-col");
 						this.classList.remove("mdl-cell--4-col");
 						this.focus();
-						history.pushState('', '', "/"+myData);
+						history.pushState('', '', "/"+searchName);
 						// history.pushState('', '', "/"+this.children[0].innerHTML);
-					};
+						};
+					})();
+					
 
 					divCard.onmouseover = function(){
 						this.classList.add("mdl-shadow--6dp");
