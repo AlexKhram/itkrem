@@ -7,14 +7,16 @@
 </head>
 <body>
 <style type="text/css">
-.mdl-card {
-	position:relative;
- 	/*opacity: .99;*/
- 	z-index: 0;
+.mdl-card__title-text {
+    background: #9e9e9e;
+    padding: 5px; 
+    opacity: 0.6; 
+    filter: alpha(Opacity=70); 
+    color: #fff; 
+    width: 100%;
+    /*mix-blend-mode: multiply;*/
 }
-.mdl-card__media {
-    margin: 0;
-}
+
 .cards-section {
   max-width: 1024px;
 }
@@ -36,81 +38,47 @@ xhr.onreadystatechange = function() {
                 var data = JSON.parse(xhr.responseText);
                 
                 for (var key in data) {
+
+//////////////////// create each block            	
  					var divCard = document.createElement('div');
  					divCard.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";
  					divCard.tabIndex = "1";
-
-					//actions
-					divCard.onblur = function(){
-						contentBody.appendChild(this);
-						this.classList.add("mdl-cell--4-col"); 
-						this.classList.remove("mdl-cell--12-col");
-					};
-					
-					divCard.onfocus = (function() {
-						var searchName = data[key]['searchName'];
-						return function(){	
-						eventBody.appendChild(this);
-						this.classList.add("mdl-cell--12-col");
-						this.classList.remove("mdl-cell--4-col");
-						this.focus();
-						history.pushState('', '', "/"+searchName);
-						// history.pushState('', '', "/"+this.children[0].innerHTML);
-						};
-					})();
-					
-
-					divCard.onmouseover = function(){
-						this.classList.add("mdl-shadow--6dp");
-						this.classList.remove("mdl-shadow--2dp");
-					};
-
- 					divCard.onmouseout = function(){
- 						this.classList.add("mdl-shadow--2dp");
- 						this.classList.remove("mdl-shadow--6dp");
- 					};
-
- 					// var divSearchName = document.createElement('div');
- 					// divSearchName.innerHTML = data[key]['searchName'];
- 					// divSearchName.style.display = "none";
-
 
 					var divTitleText = document.createElement('div');
 					divTitleText.className = "mdl-card__title";
 					divTitleText.innerHTML = data[key]['name'];
 
+					var h1Title = document.createElement('h2');
+					h1Title.className = "mdl-card__title-text";
+					h1Title.innerHTML = data[key]['name'];
+
  					var divTitle = document.createElement('div');
  					divTitle.className = "mdl-card__title";
  					divTitle.style.background = "url('" + data[key]['image'] + "') center/cover"; 
- 					divTitle.style.minHeight = "250px";
- 					divTitle.style.width = "100%";
- 	
- 					// var h2Title = document.createElement('h2');
- 					// h2Title.className = "mdl-card__title-text";
- 					// h2Title.innerHTML = data[key]['name'];
+ 					divTitle.style.height = "250px";
 
-					// divTitle.innerHTML = data[key]['name'];
-					// var divMedia = document.createElement('div');
-					// divMedia.className = "mdl-card__media";
-					// var img = document.createElement("IMG");
-					// img.src = data[key]['image'];
+ 	
 					var divDesc = document.createElement('div');
 					divDesc.className = "mdl-card__supporting-text";
+					divDesc.style.minHeight = "100px";
 					divDesc.innerHTML = data[key]['desc'].substring(0,150)+"...";
 
-					
 
 					var divAction = document.createElement('div');
 					divAction.className = "mdl-card__actions mdl-card--border";
+
 					var aLink = document.createElement('a');
 					aLink.href = data[key]['link'];
 					aLink.target="_blank";
+
 					var spanDAte = document.createElement('span');
 					// spanDAte.className = "mdl-button--primary"; //mdl-button--primary / mdl-button--accent
 					spanDAte.className = "mdl-button mdl-js-button mdl-button--primary";
 					spanDAte.innerHTML = data[key]['date'];
 
-					// divCard.appendChild(divSearchName);
+//////////////////// collect all the blocks
+					divTitle.appendChild(h1Title);
+					
 					divCard.appendChild(divTitle);
 					divCard.appendChild(divTitleText);
 					divCard.appendChild(divDesc);
@@ -120,7 +88,42 @@ xhr.onreadystatechange = function() {
 
 					contentBody.appendChild(divCard);
 	
-					//router
+///////////////////// actions for card
+					divCard.onblur = function(){
+						contentBody.appendChild(this);
+						this.getElementsByClassName('mdl-card__title')[0].style.minHeight = "250px";
+						this.classList.add("mdl-cell--4-col"); 
+						this.classList.remove("mdl-cell--12-col");
+					};
+					divCard.onfocus = (function() {
+						var searchName = data[key]['searchName'];
+						return function(){	
+						this.getElementsByClassName('mdl-card__title')[0].style.minHeight = "650px";
+						eventBody.appendChild(this);
+						this.classList.add("mdl-cell--12-col");
+						this.classList.remove("mdl-cell--4-col");
+						this.focus();
+						history.pushState('', '', "/"+searchName);
+						// history.pushState('', '', "/"+this.children[0].innerHTML);
+						};
+					})();
+					divCard.onmouseover = function(){
+						this.classList.add("mdl-shadow--6dp");
+						this.classList.remove("mdl-shadow--2dp");
+					};
+ 					divCard.onmouseout = function(){
+ 						this.classList.add("mdl-shadow--2dp");
+ 						this.classList.remove("mdl-shadow--6dp");
+ 					};
+ 					divTitle.onmouseover = function(){
+ 						this.style.backgroundSize = "contain";
+ 					}
+ 					divTitle.onmouseout = function(){
+ 						this.style.backgroundSize = "cover";
+ 					}
+
+
+//////////////////// router
 					if("/"+data[key]['searchName'] == location.pathname){
 						divCard.focus();
 					}
