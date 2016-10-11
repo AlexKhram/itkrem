@@ -37,35 +37,39 @@ xhr.onreadystatechange = function() {
                 for (var key in data) {
  					var divCard = document.createElement('div');
  					divCard.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";
- 					// divCard.addEventListener("mouseover", function(){this.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--6dp";});
- 					// divCard.addEventListener("mouseout", function(){this.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";});
-					divCard.tabIndex = "1";
-					divCard.onblur = function(){
-						
+ 					divCard.tabIndex = 0;
+
+					//actions
+					divCard.onblur = function(){	
 						contentBody.appendChild(this);
 						this.classList.add("mdl-cell--4-col"); 
 						this.classList.remove("mdl-cell--12-col");
-
-						// this.style.position = "relative";
-						// this.style.zIndex = "0";
 					};
-					divCard.addEventListener("focus", function(){
-						
+					
+					divCard.onfocus = function(){
+						var myData = data[key]['searchName'];
 						eventBody.appendChild(this);
-						// contentBody.insertBefore(this, contentBody.firstChild);
 						this.classList.add("mdl-cell--12-col");
 						this.classList.remove("mdl-cell--4-col");
 						this.focus();
-						// this.style.position = "absolute";
-						// this.style.zIndex = "3";
-					});
-					divCard.addEventListener("mouseover", function(){this.classList.add("mdl-shadow--6dp"); this.classList.remove("mdl-shadow--2dp");});
- 					divCard.addEventListener("mouseout", function(){this.classList.add("mdl-shadow--2dp"); this.classList.remove("mdl-shadow--6dp");});
- 					// divCard.addEventListener("click", function(){this.classList.toggle("mdl-cell--12-col");});
+						history.pushState('', '', "/"+myData);
+						// history.pushState('', '', "/"+this.children[0].innerHTML);
+					};
 
- 				// 	var divDate = document.createElement('div');
- 				// 	divDate.className = "mdl-card__title";
-					// divDate.innerHTML = data[key]['data'];
+					divCard.onmouseover = function(){
+						this.classList.add("mdl-shadow--6dp");
+						this.classList.remove("mdl-shadow--2dp");
+					};
+
+ 					divCard.onmouseout = function(){
+ 						this.classList.add("mdl-shadow--2dp");
+ 						this.classList.remove("mdl-shadow--6dp");
+ 					};
+
+ 					// var divSearchName = document.createElement('div');
+ 					// divSearchName.innerHTML = data[key]['searchName'];
+ 					// divSearchName.style.display = "none";
+
 
 					var divTitleText = document.createElement('div');
 					divTitleText.className = "mdl-card__title";
@@ -97,21 +101,18 @@ xhr.onreadystatechange = function() {
 					spanDAte.className = "mdl-button--primary"; //mdl-button--primary / mdl-button--accent
 					// spanDAte.className = "mdl-button mdl-button--colored";
 					spanDAte.innerHTML = data[key]['date'];
-					// divMedia.appendChild(img);
-					// divCard.appendChild(divMedia);
-					// divCard.appendChild(divDate);
-					// divTitle.appendChild(h2Title);
 
+					// divCard.appendChild(divSearchName);
 					divCard.appendChild(divTitle);
 					divCard.appendChild(divTitleText);
 					divCard.appendChild(divDesc);
 					divAction.appendChild(spanDAte);
 					divCard.appendChild(divAction);
-					// divCard.innerHTML = "<button class=\"mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon\" id=\"btn-high-1\"><i class=\"material-icons\">more_vert</i></button>";
-					
+
 					contentBody.appendChild(divCard);
+					
+					
 				}
-                console.dir(data);
             } catch(err) {
                 console.log(err.message + " in " + xhr.responseText);
                 return;
