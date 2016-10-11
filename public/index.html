@@ -7,7 +7,7 @@
 </head>
 <body>
 <style type="text/css">
-.mdl-card__title-text {
+/*.mdl-card__title-text {
     background: #9e9e9e;
     padding: 5px; 
     opacity: 0.6; 
@@ -15,6 +15,15 @@
     color: #fff; 
     width: 100%;
     /*mix-blend-mode: multiply;*/
+}*/
+.card-img {
+	position: relative;
+	overflow: visible;
+}
+.mdl-button--fab {
+    position: absolute;
+    top: 220px;
+    right: 16px;
 }
 
 .cards-section {
@@ -45,24 +54,28 @@ xhr.onreadystatechange = function() {
  					divCard.tabIndex = "1";
 
 					var divTitleText = document.createElement('div');
-					divTitleText.className = "mdl-card__title";
-					divTitleText.innerHTML = data[key]['name'];
-
+					divTitleText.className = "mdl-card__title card-title mdl-color-text--light-blue-900";
+					
 					var h1Title = document.createElement('h2');
 					h1Title.className = "mdl-card__title-text";
 					h1Title.innerHTML = data[key]['name'];
 
  					var divTitle = document.createElement('div');
- 					divTitle.className = "mdl-card__title";
+ 					divTitle.className = "mdl-card__title card-img";
  					divTitle.style.background = "url('" + data[key]['image'] + "') center/cover"; 
  					divTitle.style.height = "250px";
 
- 	
 					var divDesc = document.createElement('div');
 					divDesc.className = "mdl-card__supporting-text card-desc";
 					divDesc.style.minHeight = "100px";
 					divDesc.innerHTML = data[key]['desc'].substring(0,150)+"...";
 
+					var fabButton = document.createElement('button');
+					fabButton.className = "mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored";
+
+					var iconForFab = document.createElement('i');
+					iconForFab.className = "material-icons mdl-color-text--white";
+					iconForFab.innerHTML = "send";
 
 					var divAction = document.createElement('div');
 					divAction.className = "mdl-card__actions mdl-card--border";
@@ -77,9 +90,12 @@ xhr.onreadystatechange = function() {
 					spanDAte.innerHTML = data[key]['date'];
 
 //////////////////// collect all the blocks
-					divTitle.appendChild(h1Title);
 					
+					
+					fabButton.appendChild(iconForFab);
+					divTitle.appendChild(fabButton);
 					divCard.appendChild(divTitle);
+					divTitleText.appendChild(h1Title);
 					divCard.appendChild(divTitleText);
 					divCard.appendChild(divDesc);
 					aLink.appendChild(spanDAte);
@@ -95,6 +111,7 @@ xhr.onreadystatechange = function() {
 						contentBody.appendChild(this);
 						this.getElementsByClassName('mdl-card__title')[0].style.minHeight = "250px";
 						this.getElementsByClassName('card-desc')[0].innerHTML = cardData['desc'].substring(0,150)+"...";
+						this.getElementsByClassName('mdl-button--fab')[0].style.display = "";
 						this.classList.add("mdl-cell--4-col"); 
 						this.classList.remove("mdl-cell--12-col");
 						};
@@ -104,7 +121,8 @@ xhr.onreadystatechange = function() {
 						return function(){	
 						eventBody.appendChild(this);
 						this.getElementsByClassName('mdl-card__title')[0].style.minHeight = "650px";
-						this.getElementsByClassName('card-desc')[0].innerHTML = cardData['fullDesc'];					
+						this.getElementsByClassName('card-desc')[0].innerHTML = cardData['fullDesc'];
+						this.getElementsByClassName('mdl-button--fab')[0].style.display = "none";					
 						this.classList.add("mdl-cell--12-col");
 						this.classList.remove("mdl-cell--4-col");
 						this.focus();
