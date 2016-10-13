@@ -33,7 +33,7 @@
   max-width: 1024px;
 }
 .card-desc {
-	height: 100px;
+	min-height: 100px;
 }
 </style>
 <div class="mdl-layout mdl-js-layout mdl-color--grey-100">
@@ -57,7 +57,7 @@ xhr.onreadystatechange = function() {
 //////////////////// create each block            	
  					var divCard = document.createElement('div');
  					divCard.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";
- 					divCard.tabIndex = "1";
+ 					// divCard.tabIndex = "1";
 
 					var divTitleText = document.createElement('div');
 					divTitleText.className = "mdl-card__title card-title mdl-color-text--light-blue-900";
@@ -78,17 +78,6 @@ xhr.onreadystatechange = function() {
 
 					var fabButton = document.createElement('button');
 					fabButton.className = "mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored";
-					fabButton.onclick = (function() {
-						var card = divCard;
-						return function(){	
-							var disarded = eventBody.getElementsByClassName('mdl-card');
-							for (var i = 0; i < disarded.length; i++) {
-   								disarded[i].disCard();
-							};
-							console.dir(disarded);
-							card.onCard();
-						};
-					})();
 
 					var iconForFab = document.createElement('i');
 					iconForFab.className = "material-icons mdl-color-text--white";
@@ -147,7 +136,9 @@ xhr.onreadystatechange = function() {
 						this.getElementsByClassName('mdl-button--fab')[0].style.display = "none";					
 						this.classList.add("mdl-cell--12-col");
 						this.classList.remove("mdl-cell--4-col");
-						this.focus();
+						// this.scrollIntoView(false);
+						
+
 						history.pushState('', '', "/"+cardData['searchName']);
 						};
 					})();
@@ -159,6 +150,19 @@ xhr.onreadystatechange = function() {
  						this.classList.add("mdl-shadow--2dp");
  						this.classList.remove("mdl-shadow--6dp");
  					};
+ 					fabButton.onclick = (function() {
+						var card = divCard;
+						return function(){	
+							
+							var discarded = eventBody.getElementsByClassName('mdl-card');
+							for (var i = 0; i < discarded.length; i++) {
+   								discarded[i].disCard();
+							};
+
+							card.onCard();
+							card.scrollIntoView();
+						};
+					})();
  					// divTitle.onmouseover = function(){
  					// 	this.style.backgroundSize = "contain";
  					// }
@@ -169,7 +173,8 @@ xhr.onreadystatechange = function() {
 
 //////////////////// router
 					if("/"+data[key]['searchName'] == location.pathname){
-						divCard.focus();
+						divCard.onCard();
+						// divCard.scrollIntoView();
 
 						// microdate for card
 						var microData = document.createElement('script');
