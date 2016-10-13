@@ -7,6 +7,12 @@
     width: 100%;
     /*mix-blend-mode: multiply;*/
 }*/
+
+.mdl-layout__drawer-button {
+    height: 42px !important;
+    width: 42px !important;
+    margin: 0px 0px !important;
+}
 .header-m {
     min-height:42px !important;
     height:42px;

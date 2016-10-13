@@ -3,36 +3,34 @@
 <head>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.blue_grey-orange.min.css" />
-	<link rel="stylesheet" href="itkrem.css">
-	<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+	<link rel="stylesheet" href="itkrem.css">	
+	<style type="text/css">
+		.mdl-layout__drawer-button {
+  			height: 42px;
+  			width: 42px;
+  			margin: 0px 0px;
+		}
+	</style>
 </head>
 <body>
-
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header header-m" style="min-height:42px">
     <div class="mdl-layout__header-row header-row">
-      <!-- Title -->
       <span class="mdl-layout-title">IT события Кременчуга</span>
-      <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
-      <!-- Navigation. We hide it in small screens. -->
-<!--       <nav class="mdl-navigation mdl-layout--large-screen-only">
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-      </nav> -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+        <a class="mdl-navigation__link" href="/">Главная</a>
+        <a class="mdl-navigation__link" href="/about.html">О сайте</a>
+      </nav>
     </div>
   </header>
-<!--   <div class="mdl-layout__drawer">
+  <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">Title</span>
     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="/">Главная</a>
+      <a class="mdl-navigation__link" href="/about.html">О сайте</a>
     </nav>
-  </div> -->
+  </div>
   <main class="mdl-layout__content">
     <div class="page-content">
     	<div id="eventBody" class="mdl-grid cards-section"></div>
@@ -40,13 +38,6 @@
     </div>
   </main>
 </div>
-
-<!-- <div class="mdl-layout mdl-js-layout mdl-color--grey-100">
-    <main class="mdl-layout__content">
-    	
-    </main>
-</div>
- -->
 <script>
 var xhr = new XMLHttpRequest();
 xhr.open('GET', 'https://itkrem-a14ca.firebaseio.com/events.json?orderBy="date"', true);
@@ -220,4 +211,6 @@ xhr.onreadystatechange = function() {
     };
 }
 </script>
+<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+</body>
 </html>
