@@ -1,0 +1,28 @@
+/*.mdl-card__title-text {
+    background: #9e9e9e;
+    padding: 5px; 
+    opacity: 0.6; 
+    filter: alpha(Opacity=70); 
+    color: #fff; 
+    width: 100%;
+    /*mix-blend-mode: multiply;*/
+}*/
+.card-img {
+	position: relative;
+	overflow: visible;
+}
+.mdl-button--fab {
+    position: absolute;
+    top: 220px;
+    right: 16px;
+}
+.right {
+    text-align: right;
+    float: right;
+}
+.cards-section {
+  max-width: 1024px;
+}
+.card-desc {
+	min-height: 100px;
+}
