@@ -7,6 +7,13 @@
     width: 100%;
     /*mix-blend-mode: multiply;*/
 }*/
+.header-m {
+    min-height:42px !important;
+    height:42px;
+}
+.header-row {
+    height:42px !important;
+}
 .card-img {
 	position: relative;
 	overflow: visible;

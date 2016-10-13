@@ -2,19 +2,51 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.blue_grey-orange.min.css" />
 	<link rel="stylesheet" href="itkrem.css">
 	<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-	
 </head>
 <body>
-<div class="mdl-layout mdl-js-layout mdl-color--grey-100">
-    <main class="mdl-layout__content">
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header header-m" style="min-height:42px">
+    <div class="mdl-layout__header-row header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">IT события Кременчуга</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+<!--       <nav class="mdl-navigation mdl-layout--large-screen-only">
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+      </nav> -->
+    </div>
+  </header>
+<!--   <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Title</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+    </nav>
+  </div> -->
+  <main class="mdl-layout__content">
+    <div class="page-content">
     	<div id="eventBody" class="mdl-grid cards-section"></div>
         <div id="contentBody" class="mdl-grid cards-section"></div>
-    </main>
+    </div>
+  </main>
 </div>
 
+<!-- <div class="mdl-layout mdl-js-layout mdl-color--grey-100">
+    <main class="mdl-layout__content">
+    	
+    </main>
+</div>
+ -->
 <script>
 var xhr = new XMLHttpRequest();
 xhr.open('GET', 'https://itkrem-a14ca.firebaseio.com/events.json?orderBy="date"', true);
@@ -32,7 +64,7 @@ xhr.onreadystatechange = function() {
  					divCard.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";
 
 					var divTitleText = document.createElement('div');
-					divTitleText.className = "mdl-card__title card-title mdl-color-text--light-blue-900";
+					divTitleText.className = "mdl-card__title card-title mdl-color-text--blue-grey";
 					
 					var h1Title = document.createElement('h2');
 					h1Title.className = "mdl-card__title-text";
@@ -59,7 +91,7 @@ xhr.onreadystatechange = function() {
 					divAction.className = "mdl-card__actions mdl-card--border";
 
 					var aLink = document.createElement('a');
-					aLink.className = "mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect";
+					aLink.className = "mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect link";
 					aLink.href = data[key]['link'];
 					aLink.target="_blank";
 					aLink.innerHTML = data[key]['date'];
@@ -68,7 +100,7 @@ xhr.onreadystatechange = function() {
 					divSpacer.className = "mdl-layout-spacer";
 
 					var aReadMore = document.createElement('a');
-					aReadMore.className = "mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect right";
+					aReadMore.className = "mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect right read-more";
 					aReadMore.href = "/"+data[key]['searchName'];
 					aReadMore.innerHTML = "подробнее";
 
@@ -95,7 +127,9 @@ xhr.onreadystatechange = function() {
 						this.getElementsByClassName('card-img')[0].style.minHeight = "250px";
 						this.getElementsByClassName('card-img')[0].style.backgroundSize = "cover";
 						this.getElementsByClassName('card-desc')[0].innerHTML = cardData['desc'].substring(0,150)+"...";
+						this.getElementsByClassName('link')[0].innerHTML = cardData['date'];
 						this.getElementsByClassName('mdl-button--fab')[0].style.display = "";
+						this.getElementsByClassName('read-more')[0].style.display = "";
 						this.classList.add("mdl-cell--4-col"); 
 						this.classList.remove("mdl-cell--12-col");
 						};
@@ -107,7 +141,9 @@ xhr.onreadystatechange = function() {
 						this.getElementsByClassName('card-img')[0].style.minHeight = "550px";
 						this.getElementsByClassName('card-img')[0].style.backgroundSize = "100%";
 						this.getElementsByClassName('card-desc')[0].innerHTML = cardData['fullDesc'];
-						this.getElementsByClassName('mdl-button--fab')[0].style.display = "none";					
+						this.getElementsByClassName('link')[0].innerHTML = "link";
+						this.getElementsByClassName('mdl-button--fab')[0].style.display = "none";
+						this.getElementsByClassName('read-more')[0].style.display = "none";					
 						this.classList.add("mdl-cell--12-col");
 						this.classList.remove("mdl-cell--4-col");
 						
@@ -132,6 +168,7 @@ xhr.onreadystatechange = function() {
 							};
 
 							card.onCard();
+
 							card.scrollIntoView();
 						};
 					})();
