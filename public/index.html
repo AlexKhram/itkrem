@@ -155,10 +155,27 @@ xhr.onreadystatechange = function() {
    							"@context": "http://schema.org",
     						"@type": "Event",
     						"name": data[key]['name'],
+    						"description": data[key]['shortDesc'],
     						"url": window.location.href,
-    						"startDate": data[key]['date']
+    						"image": data[key]['image'],
+    						"startDate": data[key]['startDate'],
+    						"endDate": data[key]['endDate'],
+    						"location": {
+    							"@type": "Place",
+     							"name": data[key]['locationName'],
+    							"address": data[key]['locationAddress']
+							},
+							"Performer": {
+								"@type": "Organization",
+								"name": data[key]['orgName'],
+								"sameAs": data[key]['orgUrl']
+							},
+							"offers": {
+    							"@type": "Offer",
+    							"url": data[key]['link']
+  							}
   						});
-  						document.querySelector('body').appendChild(microData);
+  						document.body.appendChild(microData);
 					}
 					
 				}
