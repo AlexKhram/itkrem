@@ -78,6 +78,17 @@ xhr.onreadystatechange = function() {
 
 					var fabButton = document.createElement('button');
 					fabButton.className = "mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored";
+					fabButton.onclick = (function() {
+						var card = divCard;
+						return function(){	
+							var disarded = eventBody.getElementsByClassName('mdl-card');
+							for (var i = 0; i < disarded.length; i++) {
+   								disarded[i].disCard();
+							};
+							console.dir(disarded);
+							card.onCard();
+						};
+					})();
 
 					var iconForFab = document.createElement('i');
 					iconForFab.className = "material-icons mdl-color-text--white";
@@ -116,7 +127,7 @@ xhr.onreadystatechange = function() {
 					contentBody.appendChild(divCard);
 	
 ///////////////////// actions for card
-					divCard.onblur = (function() {
+					divCard.disCard = (function() {
 						var cardData = data[key];
 						return function(){
 						contentBody.appendChild(this);
@@ -127,7 +138,7 @@ xhr.onreadystatechange = function() {
 						this.classList.remove("mdl-cell--12-col");
 						};
 					})(); 
-					divCard.onfocus = (function() {
+					divCard.onCard = (function() {
 						var cardData = data[key];
 						return function(){	
 						eventBody.appendChild(this);
@@ -138,7 +149,6 @@ xhr.onreadystatechange = function() {
 						this.classList.remove("mdl-cell--4-col");
 						this.focus();
 						history.pushState('', '', "/"+cardData['searchName']);
-
 						};
 					})();
 					divCard.onmouseover = function(){
