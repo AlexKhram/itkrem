@@ -25,7 +25,10 @@
     top: 220px;
     right: 16px;
 }
-
+.right {
+    text-align: right;
+    float: right;
+}
 .cards-section {
   max-width: 1024px;
 }
@@ -81,25 +84,30 @@ xhr.onreadystatechange = function() {
 					divAction.className = "mdl-card__actions mdl-card--border";
 
 					var aLink = document.createElement('a');
+					aLink.className = "mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect";
 					aLink.href = data[key]['link'];
 					aLink.target="_blank";
+					aLink.innerHTML = data[key]['date'];
 
-					var spanDAte = document.createElement('span');
-					// spanDAte.className = "mdl-button--primary"; //mdl-button--primary / mdl-button--accent
-					spanDAte.className = "mdl-button mdl-js-button mdl-button--primary";
-					spanDAte.innerHTML = data[key]['date'];
+					var divSpacer = document.createElement('div');
+					divSpacer.className = "mdl-layout-spacer";
+
+					var aReadMore = document.createElement('a');
+					aReadMore.className = "mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect right";
+					aReadMore.href = "/"+data[key]['searchName'];
+					aReadMore.innerHTML = "подробнее";
 
 //////////////////// collect all the blocks
-					
-					
 					fabButton.appendChild(iconForFab);
 					divTitle.appendChild(fabButton);
 					divCard.appendChild(divTitle);
 					divTitleText.appendChild(h1Title);
 					divCard.appendChild(divTitleText);
 					divCard.appendChild(divDesc);
-					aLink.appendChild(spanDAte);
+
 					divAction.appendChild(aLink);
+					// divAction.appendChild(divSpacer);
+					divAction.appendChild(aReadMore);
 					divCard.appendChild(divAction);
 
 					contentBody.appendChild(divCard);
@@ -127,7 +135,7 @@ xhr.onreadystatechange = function() {
 						this.classList.remove("mdl-cell--4-col");
 						this.focus();
 						history.pushState('', '', "/"+cardData['searchName']);
-						// history.pushState('', '', "/"+this.children[0].innerHTML);
+
 						};
 					})();
 					divCard.onmouseover = function(){
@@ -149,6 +157,8 @@ xhr.onreadystatechange = function() {
 //////////////////// router
 					if("/"+data[key]['searchName'] == location.pathname){
 						divCard.focus();
+
+						// microdate for card
 						var microData = document.createElement('script');
   						microData.type = 'application/ld+json';
   						microData.text = JSON.stringify({
@@ -168,7 +178,7 @@ xhr.onreadystatechange = function() {
 							"Performer": {
 								"@type": "Organization",
 								"name": data[key]['orgName'],
-								"sameAs": data[key]['orgUrl']
+								"url": data[key]['orgUrl']
 							},
 							"offers": {
     							"@type": "Offer",
@@ -180,7 +190,7 @@ xhr.onreadystatechange = function() {
 					
 				}
             } catch(err) {
-                console.log(err.message + " in " + xhr.responseText);
+                console.log(err.message);
                 return;
             }   
     };
