@@ -38,6 +38,22 @@
 	</style>
 </head>
 <body>
+<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+<script>
+var ref = new Firebase("https://itkrem-a14ca.firebaseio.com/events");
+ref.orderByChild("date").on("value", function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+        // key
+        var key = childSnapshot.key;
+        // value, could be object
+        var childData = childSnapshot.val();
+        // Do what you want with these key/values here
+        console.dir(childData);
+    });
+});
+
+
+</script>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header header-m" style="min-height:42px;margin: 0px;">
     <div class="mdl-layout__header-row header-row">
