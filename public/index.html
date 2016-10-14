@@ -64,6 +64,7 @@
   </main>
 </div>
 <script>
+
 var xhr = new XMLHttpRequest();
 xhr.open('GET', 'https://itkrem-a14ca.firebaseio.com/events.json?orderBy="date"', true);
 xhr.send();
@@ -72,7 +73,13 @@ xhr.onreadystatechange = function() {
             
             try {
                 var data = JSON.parse(xhr.responseText);
-                
+                var microdataListItems = {
+  					"@context": "http://schema.org",
+  					"@type": "ItemList",
+  					"itemListElement": []
+  				};	
+  				var indexPointer = 1;
+  				var microdataListCounter = 1;
                 for (var key in data) {
 
 //////////////////// create each block            	
@@ -127,9 +134,7 @@ xhr.onreadystatechange = function() {
 					divTitleText.appendChild(h1Title);
 					divCard.appendChild(divTitleText);
 					divCard.appendChild(divDesc);
-
 					divAction.appendChild(aLink);
-					// divAction.appendChild(divSpacer);
 					divAction.appendChild(aReadMore);
 					divCard.appendChild(divAction);
 
@@ -188,15 +193,10 @@ xhr.onreadystatechange = function() {
 							card.scrollIntoView();
 						};
 					})();
- 					// divTitle.onmouseover = function(){
- 					// 	this.style.backgroundSize = "contain";
- 					// }
- 					// divTitle.onmouseout = function(){
- 					// 	this.style.backgroundSize = "cover";
- 					// }
 
 //////////////////// router
 					if("/"+data[key]['searchName'] == location.pathname){
+						indexPointer = 0;
 						divCard.onCard();
 
 						// microdate for card
@@ -228,6 +228,42 @@ xhr.onreadystatechange = function() {
   						});
   						document.body.appendChild(microData);
 					}
+					//microdata for index page
+					var listItem = {
+      					"@type": "ListItem",
+      					"position": microdataListCounter,
+      					"item": {
+        					"@type": "Event",
+    						"name": data[key]['name'],
+    						"description": data[key]['shortDesc'],
+    						"url": window.location.href,
+    						"image": data[key]['image'],
+    						"startDate": data[key]['startDate'],
+    						"endDate": data[key]['endDate'],
+    						"location": {
+    							"@type": "Place",
+     							"name": data[key]['locationName'],
+    							"address": data[key]['locationAddress']
+							},
+							"Performer": {
+								"@type": "Organization",
+								"name": data[key]['orgName'],
+								"url": data[key]['orgUrl']
+							},
+							"offers": {
+    							"@type": "Offer",
+    							"url": data[key]['link']
+  							}
+      					}
+    				};
+    				microdataListItems.itemListElement.push(listItem);
+    				microdataListCounter++;
+				}
+				if(indexPointer==1){
+					var listData = document.createElement('script');
+  					listData.type = 'application/ld+json';
+  					listData.text = JSON.stringify(microdataListItems);
+  					document.body.appendChild(listData);
 				}
             } catch(err) {
                 console.log(err.message);
