@@ -38,22 +38,7 @@
 	</style>
 </head>
 <body>
-<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
-<script>
-var ref = new Firebase("https://itkrem-a14ca.firebaseio.com/events");
-ref.orderByChild("date").on("value", function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-        // key
-        var key = childSnapshot.key;
-        // value, could be object
-        var childData = childSnapshot.val();
-        // Do what you want with these key/values here
-        console.dir(childData);
-    });
-});
 
-
-</script>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header header-m" style="min-height:42px;margin: 0px;">
     <div class="mdl-layout__header-row header-row">
@@ -79,213 +64,202 @@ ref.orderByChild("date").on("value", function(snapshot) {
     </div>
   </main>
 </div>
-<script>
 
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://itkrem-a14ca.firebaseio.com/events.json?orderBy="date"', true);
-xhr.send();
-xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            
-            try {
-                var data = JSON.parse(xhr.responseText);
-                var microdataListItems = {
+<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+<script>
+var microdataListItems = {
   					"@context": "http://schema.org",
   					"@type": "ItemList",
   					"itemListElement": []
   				};	
   				var indexPointer = 1;
   				var microdataListCounter = 1;
-                for (var key in data) {
+var ref = new Firebase("https://itkrem-a14ca.firebaseio.com/events");
+ref.orderByChild("index").on("value", function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+        var data = childSnapshot.val();
 
-//////////////////// create each block            	
- 					var divCard = document.createElement('div');
- 					divCard.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";
+        //////////////////// create each block            	
+ 		var divCard = document.createElement('div');
+ 		divCard.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";
 
-					var divTitleText = document.createElement('div');
-					divTitleText.className = "mdl-card__title card-title mdl-color-text--blue-grey";
+		var divTitleText = document.createElement('div');
+		divTitleText.className = "mdl-card__title card-title mdl-color-text--blue-grey";
 					
-					var h1Title = document.createElement('h2');
-					h1Title.className = "mdl-card__title-text";
-					h1Title.innerHTML = data[key]['name'];
+		var h1Title = document.createElement('h2');
+		h1Title.className = "mdl-card__title-text";
+		h1Title.innerHTML = data['name'];
 
- 					var divTitle = document.createElement('div');
- 					divTitle.className = "mdl-card__title card-img";
- 					divTitle.style.background = "url('" + data[key]['image'] + "') center/cover"; 
- 					divTitle.style.height = "250px";
+ 		var divTitle = document.createElement('div');
+ 		divTitle.className = "mdl-card__title card-img";
+ 		divTitle.style.background = "url('" + data['image'] + "') center/cover"; 
+ 		divTitle.style.height = "250px";
 
-					var divDesc = document.createElement('div');
-					divDesc.className = "mdl-card__supporting-text card-desc";
-					divDesc.style.minHeight = "100px";
-					divDesc.innerHTML = data[key]['desc'].substring(0,150)+"...";
+		var divDesc = document.createElement('div');
+		divDesc.className = "mdl-card__supporting-text card-desc";
+		divDesc.style.minHeight = "100px";
+		divDesc.innerHTML = data['desc'].substring(0,150)+"...";
 
-					var fabButton = document.createElement('button');
-					fabButton.className = "mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored";
+		var fabButton = document.createElement('button');
+		fabButton.className = "mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored";
 
-					var iconForFab = document.createElement('i');
-					iconForFab.className = "material-icons mdl-color-text--white";
-					iconForFab.innerHTML = "send";
+		var iconForFab = document.createElement('i');
+		iconForFab.className = "material-icons mdl-color-text--white";
+		iconForFab.innerHTML = "send";
 
-					var divAction = document.createElement('div');
-					divAction.className = "mdl-card__actions mdl-card--border";
+		var divAction = document.createElement('div');
+		divAction.className = "mdl-card__actions mdl-card--border";
 
-					var aLink = document.createElement('a');
-					aLink.className = "mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect link";
-					aLink.href = data[key]['link'];
-					aLink.target="_blank";
-					aLink.innerHTML = data[key]['date'];
+		var aLink = document.createElement('a');
+		aLink.className = "mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect link";
+		aLink.href = data['link'];
+		aLink.target="_blank";
+		aLink.innerHTML = data['date'];
 
-					var divSpacer = document.createElement('div');
-					divSpacer.className = "mdl-layout-spacer";
+		var divSpacer = document.createElement('div');
+		divSpacer.className = "mdl-layout-spacer";
 
-					var aReadMore = document.createElement('a');
-					aReadMore.className = "mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect right read-more";
-					aReadMore.href = "/"+data[key]['searchName'];
-					aReadMore.innerHTML = "подробнее";
+		var aReadMore = document.createElement('a');
+		aReadMore.className = "mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect right read-more";
+		aReadMore.href = "/"+data['searchName'];
+		aReadMore.innerHTML = "подробнее";
 
 //////////////////// collect all the blocks
-					fabButton.appendChild(iconForFab);
-					divTitle.appendChild(fabButton);
-					divCard.appendChild(divTitle);
-					divTitleText.appendChild(h1Title);
-					divCard.appendChild(divTitleText);
-					divCard.appendChild(divDesc);
-					divAction.appendChild(aLink);
-					divAction.appendChild(aReadMore);
-					divCard.appendChild(divAction);
+		fabButton.appendChild(iconForFab);
+		divTitle.appendChild(fabButton);
+		divCard.appendChild(divTitle);
+		divTitleText.appendChild(h1Title);
+		divCard.appendChild(divTitleText);
+		divCard.appendChild(divDesc);
+		divAction.appendChild(aLink);
+		divAction.appendChild(aReadMore);
+		divCard.appendChild(divAction);
 
-					contentBody.appendChild(divCard);
+		contentBody.appendChild(divCard);
 	
 ///////////////////// actions for card
-					divCard.disCard = (function() {
-						var cardData = data[key];
-						return function(){
-						contentBody.appendChild(this);
-						this.getElementsByClassName('card-img')[0].style.minHeight = "250px";
-						this.getElementsByClassName('card-img')[0].style.backgroundSize = "cover";
-						this.getElementsByClassName('card-desc')[0].innerHTML = cardData['desc'].substring(0,150)+"...";
-						this.getElementsByClassName('link')[0].innerHTML = cardData['date'];
-						this.getElementsByClassName('mdl-button--fab')[0].style.display = "";
-						this.getElementsByClassName('read-more')[0].style.display = "";
-						this.classList.add("mdl-cell--4-col"); 
-						this.classList.remove("mdl-cell--12-col");
-						};
-					})(); 
-					divCard.onCard = (function() {
-						var cardData = data[key];
-						return function(){	
-						eventBody.appendChild(this);
-						this.getElementsByClassName('card-img')[0].style.minHeight = "550px";
-						this.getElementsByClassName('card-img')[0].style.backgroundSize = "100%";
-						this.getElementsByClassName('card-desc')[0].innerHTML = cardData['fullDesc'];
-						this.getElementsByClassName('link')[0].innerHTML = "link";
-						this.getElementsByClassName('mdl-button--fab')[0].style.display = "none";
-						this.getElementsByClassName('read-more')[0].style.display = "none";					
-						this.classList.add("mdl-cell--12-col");
-						this.classList.remove("mdl-cell--4-col");
-						
-						history.pushState('', '', "/"+cardData['searchName']);
-						};
-					})();
-					divCard.onmouseover = function(){
-						this.classList.add("mdl-shadow--6dp");
-						this.classList.remove("mdl-shadow--2dp");
-					};
- 					divCard.onmouseout = function(){
- 						this.classList.add("mdl-shadow--2dp");
- 						this.classList.remove("mdl-shadow--6dp");
- 					};
- 					fabButton.onclick = (function() {
-						var card = divCard;
-						return function(){	
-							
-							var discarded = eventBody.getElementsByClassName('mdl-card');
-							for (var i = 0; i < discarded.length; i++) {
-   								discarded[i].disCard();
-							};
-
-							card.onCard();
-
-							card.scrollIntoView();
-						};
-					})();
+		divCard.disCard = (function() {
+			var cardData = data;
+			return function(){
+				contentBody.appendChild(this);
+				this.getElementsByClassName('card-img')[0].style.minHeight = "250px";
+				this.getElementsByClassName('card-img')[0].style.backgroundSize = "cover";
+				this.getElementsByClassName('card-desc')[0].innerHTML = cardData['desc'].substring(0,150)+"...";
+				this.getElementsByClassName('link')[0].innerHTML = cardData['date'];
+				this.getElementsByClassName('mdl-button--fab')[0].style.display = "";
+				this.getElementsByClassName('read-more')[0].style.display = "";
+				this.classList.add("mdl-cell--4-col"); 
+				this.classList.remove("mdl-cell--12-col");
+			};
+		})(); 
+		divCard.onCard = (function() {
+			var cardData = data;
+			return function(){	
+				eventBody.appendChild(this);
+				this.getElementsByClassName('card-img')[0].style.minHeight = "550px";
+				this.getElementsByClassName('card-img')[0].style.backgroundSize = "100%";
+				this.getElementsByClassName('card-desc')[0].innerHTML = cardData['fullDesc'];
+				this.getElementsByClassName('link')[0].innerHTML = "link";
+				this.getElementsByClassName('mdl-button--fab')[0].style.display = "none";
+				this.getElementsByClassName('read-more')[0].style.display = "none";					
+				this.classList.add("mdl-cell--12-col");
+				this.classList.remove("mdl-cell--4-col");
+				
+				history.pushState('', '', "/"+cardData['searchName']);
+			};
+		})();
+		divCard.onmouseover = function(){
+			this.classList.add("mdl-shadow--6dp");
+			this.classList.remove("mdl-shadow--2dp");
+		};
+ 		divCard.onmouseout = function(){
+ 			this.classList.add("mdl-shadow--2dp");
+ 			this.classList.remove("mdl-shadow--6dp");
+ 		};
+ 		fabButton.onclick = (function() {
+			var card = divCard;
+			return function(){				
+				var discarded = eventBody.getElementsByClassName('mdl-card');
+				for (var i = 0; i < discarded.length; i++) {
+   					discarded[i].disCard();
+				};
+				card.onCard();
+				card.scrollIntoView();
+			};
+		})();
 
 //////////////////// router
-					if("/"+data[key]['searchName'] == location.pathname){
-						indexPointer = 0;
-						divCard.onCard();
+		if("/"+data['searchName'] == location.pathname){
+			indexPointer = 0;
+			divCard.onCard();
 
-						// microdate for card
-						var microData = document.createElement('script');
-  						microData.type = 'application/ld+json';
-  						microData.text = JSON.stringify({
-   							"@context": "http://schema.org",
-    						"@type": "Event",
-    						"name": data[key]['name'],
-    						"description": data[key]['shortDesc'],
-    						"url": window.location.href,
-    						"image": data[key]['image'],
-    						"startDate": data[key]['startDate'],
-    						"endDate": data[key]['endDate'],
-    						"location": {
-    							"@type": "Place",
-     							"name": data[key]['locationName'],
-    							"address": data[key]['locationAddress']
-							},
-							"Performer": {
-								"@type": "Organization",
-								"name": data[key]['orgName'],
-								"url": data[key]['orgUrl']
-							},
-							"offers": {
-    							"@type": "Offer",
-    							"url": data[key]['link']
-  							}
-  						});
-  						document.body.appendChild(microData);
-					}
-					//microdata for index page
-					var listItem = {
-      					"@type": "ListItem",
-      					"position": microdataListCounter,
-      					"item": {
-        					"@type": "Event",
-    						"name": data[key]['name'],
-    						"description": data[key]['shortDesc'],
-    						"url": window.location.href,
-    						"image": data[key]['image'],
-    						"startDate": data[key]['startDate'],
-    						"endDate": data[key]['endDate'],
-    						"location": {
-    							"@type": "Place",
-     							"name": data[key]['locationName'],
-    							"address": data[key]['locationAddress']
-							},
-							"Performer": {
-								"@type": "Organization",
-								"name": data[key]['orgName'],
-								"url": data[key]['orgUrl']
-							},
-							"offers": {
-    							"@type": "Offer",
-    							"url": data[key]['link']
-  							}
-      					}
-    				};
-    				microdataListItems.itemListElement.push(listItem);
-    				microdataListCounter++;
-				}
-				if(indexPointer==1){
-					var listData = document.createElement('script');
-  					listData.type = 'application/ld+json';
-  					listData.text = JSON.stringify(microdataListItems);
-  					document.body.appendChild(listData);
-				}
-            } catch(err) {
-                console.log(err.message);
-                return;
-            }   
-    };
+// microdate for card
+			var microData = document.createElement('script');
+			microData.type = 'application/ld+json';
+			microData.text = JSON.stringify({
+				"@context": "http://schema.org",
+   				"@type": "Event",
+    			"name": data['name'],
+    			"description": data['shortDesc'],
+    			"url": window.location.href,
+    			"image": data['image'],
+   				"startDate": data['startDate'],
+   				"endDate": data['endDate'],
+   				"location": {
+   					"@type": "Place",
+   					"name": data['locationName'],
+   					"address": data['locationAddress']
+				},
+				"Performer": {
+					"@type": "Organization",
+					"name": data['orgName'],
+					"url": data['orgUrl']
+				},
+					"offers": {
+    				"@type": "Offer",
+    				"url": data['link']
+  				}
+  			});
+  			document.body.appendChild(microData);
+		}
+	
+		//microdata for index page
+		var listItem = {
+    		"@type": "ListItem",
+    		"position": microdataListCounter,
+    		"item": {
+    			"@type": "Event",
+    			"name": data['name'],
+    			"description": data['shortDesc'],
+    			"url": window.location.href,
+    			"image": data['image'],
+    			"startDate": data['startDate'],
+    			"endDate": data['endDate'],
+    			"location": {
+    				"@type": "Place",
+    				"name": data['locationName'],
+    				"address": data['locationAddress']
+				},
+				"Performer": {
+					"@type": "Organization",
+					"name": data['orgName'],
+					"url": data['orgUrl']
+				},
+				"offers": {
+    				"@type": "Offer",
+    				"url": data['link']
+  				}
+      		}
+    	};
+    	microdataListItems.itemListElement.push(listItem);
+    	microdataListCounter++;
+    });
+});
+if(indexPointer==1){
+	var listData = document.createElement('script');
+	listData.type = 'application/ld+json';
+	listData.text = JSON.stringify(microdataListItems);
+	document.body.appendChild(listData);
 }
 </script>
 <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
