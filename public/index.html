@@ -40,7 +40,7 @@
 </head>
 <body>
 
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--no-desktop-drawer-button">
   <header class="mdl-layout__header header-m" style="min-height:42px;margin: 0px;">
     <div class="mdl-layout__header-row header-row">
       <span class="mdl-layout-title"><h4>IT события Кременчуга</h4></span>
@@ -141,11 +141,9 @@ ref.orderByChild("index").on("value", function(snapshot) {
 ///////////////////// actions for card
 		divCard.disCard = (function() {
 			var cardData = data;
-			return function(){
-				
+			return function(){				
 				contentBody.appendChild(this);
 				this.getElementsByClassName('card-img')[0].style.minHeight = "250px";
-				this.getElementsByClassName('card-img')[0].style.backgroundSize = "cover";
 				this.getElementsByClassName('card-desc')[0].innerHTML = cardData['desc'].substring(0,150)+"...";
 				this.getElementsByClassName('link')[0].innerHTML = cardData['date'];
 				this.getElementsByClassName('mdl-button--fab')[0].style.display = "";
@@ -159,7 +157,6 @@ ref.orderByChild("index").on("value", function(snapshot) {
 			return function(){	
 				eventBody.appendChild(this);
 				this.getElementsByClassName('card-img')[0].style.minHeight = "350px";
-				this.getElementsByClassName('card-img')[0].style.backgroundSize = "100%";
 				var desc = this.getElementsByClassName('card-desc')[0]
 				desc.innerHTML = cardData['fullDesc'];
 				var pDate = document.createElement('p');
