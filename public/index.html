@@ -78,7 +78,7 @@ var ref = new Firebase("https://itkrem-a14ca.firebaseio.com/events");
 ref.orderByChild("index").on("value", function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
         var data = childSnapshot.val();
-
+        
         //////////////////// create each block            	
  		var divCard = document.createElement('div');
  		divCard.className = "mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp";
@@ -141,6 +141,7 @@ ref.orderByChild("index").on("value", function(snapshot) {
 		divCard.disCard = (function() {
 			var cardData = data;
 			return function(){
+				
 				contentBody.appendChild(this);
 				this.getElementsByClassName('card-img')[0].style.minHeight = "250px";
 				this.getElementsByClassName('card-img')[0].style.backgroundSize = "cover";
@@ -158,7 +159,24 @@ ref.orderByChild("index").on("value", function(snapshot) {
 				eventBody.appendChild(this);
 				this.getElementsByClassName('card-img')[0].style.minHeight = "350px";
 				this.getElementsByClassName('card-img')[0].style.backgroundSize = "100%";
-				this.getElementsByClassName('card-desc')[0].innerHTML = cardData['fullDesc'];
+				var desc = this.getElementsByClassName('card-desc')[0]
+				desc.innerHTML = cardData['fullDesc'];
+				var pDate = document.createElement('p');
+				var date = new Date(Date.parse(data['startDate']));
+				var options = {
+ 					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+					weekday: 'long',
+					timeZone: 'UTC',
+					hour: 'numeric',
+					minute: 'numeric'
+				};
+				pDate.innerHTML = "<br>Дата и время проведения:<br>"+date.toLocaleString("ru-UA", options);
+				desc.appendChild(pDate);
+				var pPlace = document.createElement('p');
+				pPlace.innerHTML = "Место проведения:<br>" + data['locationName'] + "<br>" + data["locationAddress"];
+				desc.appendChild(pPlace);
 				this.getElementsByClassName('link')[0].innerHTML = "link";
 				this.getElementsByClassName('mdl-button--fab')[0].style.display = "none";
 				this.getElementsByClassName('read-more')[0].style.display = "none";					
